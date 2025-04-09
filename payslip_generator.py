@@ -94,7 +94,7 @@ for _, row in df.iterrows():
         yag.send(to=recipient_email, subject=subject, contents=body, attachments=pdf_path)
         print(f"Payslip sent to {row['Name']} at {recipient_email}")
     except Exception as e:
-        print(f"Failed to send payslip to {row['Name']} at {recipient_email}. Error: {e}")
+         print(f"Failed to send payslip to {row['Name']} at {recipient_email}. Error: {e}")
 
 
 
