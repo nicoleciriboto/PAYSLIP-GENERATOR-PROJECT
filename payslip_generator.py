@@ -32,7 +32,7 @@ def generate_payslip(employee):
     net_salary = basic_salary + allowance - deductions
 
 # Create a PDF file for the payslip
-    pdf_filename = f'payslips/{employee_id}.pdf'
+    pdf_filename = f'payslips/{employee_name}_{employee_id}.pdf'
     c = canvas.Canvas(pdf_filename, pagesize=A4)
     width, height = A4
 
@@ -48,6 +48,11 @@ def generate_payslip(employee):
     c.setFont("Times-Bold", 10)
     c.drawCentredString(width / 2, height - 90, "Margarett Powell House  21 Cork Road  Avondale Outlets")
     c.line(30, height-110, width-40, height-110)
+
+    c.setFont("Times-Roman", 12)
+    c.drawString(50, height - 150, f"Employee ID:          {employee_id}")
+    c.drawString(50, height - 170, f"Name:                    {employee_name}")
+    c.drawString(50, height - 190, f"Date:                     {pd.Timestamp.now().strftime('%Y-%m-%d')}")
 
 #TABLE
     data = [
@@ -67,7 +72,7 @@ def generate_payslip(employee):
         ('GRID', (0,0), (-1, -1), 0.5, colors.grey),
     ]))
     table.wrapOn(c, width, height)
-    table.drawOn(c, 50, height-300)
+    table.drawOn(c, 50, height-350)
 
 
     c.setFont("Times-Roman", 12)
@@ -87,7 +92,10 @@ for _, row in df.iterrows():
     subject = "Your Payslip for this month"
     body = f"""Dear {row['Name']},
       Please find your attached payslip for this month. 
-      If you have any questions, feel free to reach out."""
+      If you have any questions, feel free to reach out.
+      
+      Best regards,
+      The Beauty Clinic Team."""
     
     #SEND EMAIL WITH ATTACHMENT
     try:
